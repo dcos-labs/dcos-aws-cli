@@ -56,7 +56,7 @@ func publicAgentIPs(c *kingpin.ParseContext) error {
 		fmt.Printf("[Error] %s\n\n", err)
 	}
 
-	result := gjson.Get(out.String(), `#[attributes.public_ip="true"].id`)
+	result := gjson.Get(out.String(), `#[attributes.public_ip="true"]#.id`)
 	result.ForEach(func(key, value gjson.Result) bool {
 		sshExec := exec.Command(dcosCommand, "node", "ssh", "--option", "StrictHostKeyChecking=no", 
 		 "--option", "LogLevel=quiet", "--master-proxy", "--mesos-id="+value.String(), `"curl -s ifconfig.co"`)
